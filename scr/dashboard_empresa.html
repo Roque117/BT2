@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BolsaTrabajo - Dashboard Empresarial</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .main-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .menu-toggle {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        /* Main Container */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            z-index: 999;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-item {
+            margin-bottom: 5px;
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .menu-link:hover, .menu-link.active {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .menu-link i {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 0 25px;
+        }
+        
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            padding: 12px 0;
+            width: 100%;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .logout-btn:hover {
+            color: #dc3545;
+        }
+        
+        .logout-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-subtitle {
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .icon-primary { background: rgba(67, 97, 238, 0.1); color: var(--primary); }
+        .icon-success { background: rgba(76, 201, 240, 0.1); color: var(--success); }
+        .icon-warning { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
+        .icon-purple { background: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .stat-title {
+            color: var(--gray);
+            margin: 0;
+        }
+        
+        /* Tab Container */
+        .tab-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Job List */
+        .job-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .job-item {
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+        
+        .job-item:last-child {
+            border-bottom: none;
+        }
+        
+        .job-item:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin: 0;
+        }
+        
+        .job-status {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .status-active { background: rgba(40, 167, 69, 0.1); color: #28a745; }
+        .status-paused { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
+        .status-closed { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
+        
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .job-meta-item i {
+            margin-right: 5px;
+        }
+        
+        .job-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 0.8rem;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                height: calc(100vh - 70px);
+                top: 70px;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Loader */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(67, 97, 238, 0.2);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tabs */
+        .nav-tabs-empresa .nav-link {
+            border: none;
+            padding: 0.8rem 1.5rem;
+            color: var(--gray);
+            font-weight: 500;
+            border-radius: 0;
+        }
+        
+        .nav-tabs-empresa .nav-link.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background: transparent;
+        }
+        
+        .nav-tabs-empresa .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="main-header">
+    <a href="#" class="logo">
+        <div class="logo-icon">
+            <i class="bi bi-briefcase"></i>
+        </div>
+        <h1 class="logo-text">BolsaTrabajo</h1>
+    </a>
+    
+    <div class="user-actions">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="user-profile" id="userDropdownTrigger">
+            <div class="user-avatar" id="userAvatar">{{ empresa.abreviatura }}</div>
+            <span class="user-name" id="userFullName">{{ empresa.nombre }}</span>
+        </div>
+    </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="main-container">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="#" class="menu-link active" data-section="inicio">
+                    <i class="bi bi-house-door"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li class="menu-item" id="company-menu-item">
+                <a href="#" class="menu-link" data-section="empresa">
+                    <i class="bi bi-building"></i>
+                    <span>Mi Empresa</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link" data-section="notificaciones">
+                    <i class="bi bi-bell"></i>
+                    <span>Notificaciones</span>
+                    <span class="badge bg-danger ms-2">{{ notificaciones|length }}</span>
+                </a>
+            </li>
+            <li class="menu-item">
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Cerrar sesión</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Inicio Section -->
+        <section id="inicio-section" class="content-section active">
+            <div class="section-header text-center">
+                <h2 class="fw-bold mb-1">¡Bienvenido de nuevo!</h2>
+                <h4 class="text-primary" id="companyName">{{ empresa.nombre }}</h4>
+                <p class="section-subtitle">Estamos encantados de tenerte en nuestra plataforma empresarial</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-primary">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+                    <h3 class="stat-value" id="activeJobsCount">{{ estadisticas.vacantes_activas }}</h3>
+                    <p class="stat-title">Vacantes Activas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3 class="stat-value" id="candidatesCount">{{ estadisticas.candidatos_totales }}</h3>
+                    <p class="stat-title">Candidatos</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-warning">
+                        <i class="bi bi-eye"></i>
+                    </div>
+                    <h3 class="stat-value" id="viewsCount">{{ estadisticas.visitas }}</h3>
+                    <p class="stat-title">Visitas</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple">
+                        <i class="bi bi-bar-chart"></i>
+                    </div>
+                    <h3 class="stat-value" id="completionRate">{{ estadisticas.posiciones_cubiertas }}%</h3>
+                    <p class="stat-title">Posiciones cubiertas</p>
+                </div>
+            </div>
+            
+            <div class="tab-container">
+                <h3 class="mb-4">Tus Últimas Vacantes</h3>
+                <ul class="job-list" id="recentJobsList">
+                    {% for vacante in vacantes %}
+                    <li class="job-item">
+                        <div class="job-header">
+                            <h4 class="job-title">{{ vacante.titulo }}</h4>
+                            <span class="job-status {% if vacante.estado == 'Activa' %}status-active{% else %}status-paused{% endif %}">{{ vacante.estado }}</span>
+                        </div>
+                        <div class="job-meta">
+                            <span class="job-meta-item">
+                                <i class="bi bi-geo-alt"></i> {{ vacante.ubicacion }}
+                            </span>
+                            <span class="job-meta-item">
+                                <i class="bi bi-clock"></i> {{ vacante.tipo_contrato }}
+                            </span>
+                            <span class="job-meta-item">
+                                <i class="bi bi-currency-euro"></i> {{ vacante.salario }}
+                            </span>
+                        </div>
+                        <p class="mb-0">Publicada: {{ vacante.fecha_publicacion.strftime('%d/%m/%Y') }} · Candidatos: {{ vacante.candidatos }}</p>
+                        <div class="job-actions">
+                            <button class="btn btn-sm btn-outline-primary">Ver detalles</button>
+                            <button class="btn btn-sm btn-primary">Ver candidatos</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+
+            <!-- Empresa Section -->
+            <section id="empresa-section" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Panel de Empresa</h2>
+                    <p class="section-subtitle">Administra tus vacantes y candidatos</p>
+                </div>
+                
+                <div class="tab-container">
+                    <ul class="nav nav-tabs nav-tabs-empresa" id="companyTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="jobs-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#jobs-pane" type="button" role="tab">
+                                <i class="bi bi-briefcase me-2"></i>Mis Empleos
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="candidates-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#candidates-pane" type="button" role="tab">
+                                <i class="bi bi-people me-2"></i>Candidatos
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="stats-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#stats-pane" type="button" role="tab">
+                                <i class="bi bi-bar-chart me-2"></i>Estadísticas
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="companyTabContent">
+                        
+                        <!-- Jobs Tab -->
+                        <div class="tab-pane fade show active" id="jobs-pane" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h3>Vacantes Publicadas</h3>
+                                <button class="btn btn-primary" id="createJobBtn">
+                                    <i class="bi bi-plus-lg me-2"></i>Crear Nueva Vacante
+                                </button>
+                            </div>
+                            <ul class="job-list" id="companyJobsList">
+                                <li class="job-item">
+                                    <div class="job-header">
+                                        <h4 class="job-title">Desarrollador Backend</h4>
+                                        <span class="job-status status-active">Activa</span>
+                                    </div>
+                                    <div class="job-meta">
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-geo-alt"></i> Remoto
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-clock"></i> Tiempo completo
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-currency-euro"></i> 50-65K
+                                        </span>
+                                    </div>
+                                    <p class="mb-0">Publicada: 10/05/2023 · Candidatos: 18 · Visitas: 324</p>
+                                    <div class="job-actions">
+                                        <button class="btn btn-sm btn-outline-primary">Editar</button>
+                                        <button class="btn btn-sm btn-outline-warning">Pausar</button>
+                                        <button class="btn btn-sm btn-outline-danger">Cerrar</button>
+                                        <button class="btn btn-sm btn-primary ms-auto">Ver candidatos</button>
+                                    </div>
+                                </li>
+                                <li class="job-item">
+                                    <div class="job-header">
+                                        <h4 class="job-title">Gerente de Proyectos</h4>
+                                        <span class="job-status status-paused">Pausada</span>
+                                    </div>
+                                    <div class="job-meta">
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-geo-alt"></i> Madrid, España
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-clock"></i> Tiempo completo
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-currency-euro"></i> 55-70K
+                                        </span>
+                                    </div>
+                                    <p class="mb-0">Publicada: 05/05/2023 · Candidatos: 9 · Visitas: 187</p>
+                                    <div class="job-actions">
+                                        <button class="btn btn-sm btn-outline-primary">Editar</button>
+                                        <button class="btn btn-sm btn-outline-success">Activar</button>
+                                        <button class="btn btn-sm btn-outline-danger">Cerrar</button>
+                                        <button class="btn btn-sm btn-primary ms-auto">Ver candidatos</button>
+                                    </div>
+                                </li>
+                                <li class="job-item">
+                                    <div class="job-header">
+                                        <h4 class="job-title">Analista de Datos</h4>
+                                        <span class="job-status status-closed">Cerrada</span>
+                                    </div>
+                                    <div class="job-meta">
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-geo-alt"></i> Barcelona, España
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-clock"></i> Tiempo completo
+                                        </span>
+                                        <span class="job-meta-item">
+                                            <i class="bi bi-currency-euro"></i> 40-50K
+                                        </span>
+                                    </div>
+                                    <p class="mb-0">Publicada: 25/04/2023 · Candidatos: 22 · Visitas: 415</p>
+                                    <div class="job-actions">
+                                        <button class="btn btn-sm btn-outline-primary">Ver detalles</button>
+                                        <button class="btn btn-sm btn-outline-success">Reabrir</button>
+                                        <button class="btn btn-sm btn-primary ms-auto">Ver candidatos</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Candidates Tab -->
+                        <div class="tab-pane fade" id="candidates-pane" role="tabpanel">
+                            <h3 class="mb-4">Candidatos Postulados</h3>
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i> Selecciona una vacante para ver sus candidatos
+                            </div>
+                            <div class="d-flex justify-content-end mb-3">
+                                <div class="col-md-4">
+                                    <select class="form-select">
+                                        <option selected>Todas las vacantes</option>
+                                        <option>Desarrollador Frontend Senior</option>
+                                        <option>Especialista en Marketing Digital</option>
+                                        <option>Desarrollador Backend</option>
+                                        <option>Gerente de Proyectos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Vacante</th>
+                                            <th>Fecha</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>María López</td>
+                                            <td>Desarrollador Frontend Senior</td>
+                                            <td>18/05/2023</td>
+                                            <td><span class="badge bg-warning">En revisión</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Ver CV</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Carlos Mendoza</td>
+                                            <td>Desarrollador Backend</td>
+                                            <td>17/05/2023</td>
+                                            <td><span class="badge bg-success">Seleccionado</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Ver CV</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ana Torres</td>
+                                            <td>Especialista en Marketing Digital</td>
+                                            <td>16/05/2023</td>
+                                            <td><span class="badge bg-info">Entrevista</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Ver CV</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jorge Ramírez</td>
+                                            <td>Desarrollador Frontend Senior</td>
+                                            <td>15/05/2023</td>
+                                            <td><span class="badge bg-danger">Descartado</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Ver CV</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Tab -->
+                        <div class="tab-pane fade" id="stats-pane" role="tabpanel">
+                            <h3 class="mb-4">Estadísticas de la Empresa</h3>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Postulaciones por Vacante</h5>
+                                            <div class="d-flex align-items-center mt-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Desarrollador Frontend Senior</span>
+                                                        <span>12</span>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-primary" style="width: 70%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Desarrollador Backend</span>
+                                                        <span>18</span>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-success" style="width: 90%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Especialista en Marketing Digital</span>
+                                                        <span>8</span>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-info" style="width: 40%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-3">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Gerente de Proyectos</span>
+                                                        <span>9</span>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-warning" style="width: 45%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Estado de Postulaciones</h5>
+                                            <div class="d-flex justify-content-center mt-4">
+                                                <canvas id="applicationStatusChart" width="200" height="200"></canvas>
+                                            </div>
+                                            <div class="mt-4">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="bg-primary rounded-circle" style="width: 12px; height: 12px;"></div>
+                                                    <span class="ms-2">En revisión: 15</span>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="bg-info rounded-circle" style="width: 12px; height: 12px;"></div>
+                                                    <span class="ms-2">Entrevista: 8</span>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="bg-success rounded-circle" style="width: 12px; height: 12px;"></div>
+                                                    <span class="ms-2">Seleccionados: 5</span>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-danger rounded-circle" style="width: 12px; height: 12px;"></div>
+                                                    <span class="ms-2">Descartados: 12</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Job Modal -->
+    <div class="modal fade" id="createJobModal" tabindex="-1" aria-labelledby="createJobModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createJobModalLabel">Crear Nueva Vacante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createJobForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="jobTitle" class="form-label">Título del puesto*</label>
+                                <input type="text" class="form-control" id="jobTitle" name="titulo" placeholder="Ej: Desarrollador Frontend Senior" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="jobLocation" class="form-label">Ubicación*</label>
+                                <input type="text" class="form-control" id="jobLocation" name="ubicacion" placeholder="Ej: Querétaro, México" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="jobDescription" class="form-label">Descripción del puesto*</label>
+                            <textarea class="form-control" id="jobDescription" name="descripcion" rows="4" placeholder="Describe las responsabilidades del puesto..." required></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="jobSalaryMin" class="form-label">Salario mínimo (€)</label>
+                                <input type="number" class="form-control" id="jobSalaryMin" name="salario_minimo" placeholder="Ej: 30000">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="jobSalaryMax" class="form-label">Salario máximo (€)</label>
+                                <input type="number" class="form-control" id="jobSalaryMax" name="salario_maximo" placeholder="Ej: 45000">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="jobType" class="form-label">Tipo de contrato*</label>
+                                <select class="form-select" id="jobType" name="tipo_contrato" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Tiempo completo">Tiempo completo</option>
+                                    <option value="Medio tiempo">Medio tiempo</option>
+                                    <option value="Por proyecto">Por proyecto</option>
+                                    <option value="Práctica profesional">Práctica profesional</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="jobCategory" class="form-label">Categoría*</label>
+                                <select class="form-select" id="jobCategory" name="categoria" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Tecnología">Tecnología</option>
+                                    <option value="Ventas">Ventas</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Recursos Humanos">Recursos Humanos</option>
+                                    <option value="Finanzas">Finanzas</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="jobRequirements" class="form-label">Requisitos*</label>
+                            <textarea class="form-control" id="jobRequirements" name="requisitos" rows="3" placeholder="Lista los requisitos mínimos para el puesto..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="jobBenefits" class="form-label">Beneficios</label>
+                            <textarea class="form-control" id="jobBenefits" name="beneficios" rows="2" placeholder="Beneficios adicionales que ofrece la empresa..."></textarea>
+                        </div>
+                        
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="jobRemote" name="remoto">
+                            <label class="form-check-label" for="jobRemote">
+                                Trabajo remoto disponible
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="submitJobBtn">Publicar Vacante</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Toggle sidebar on mobile
+    document.getElementById('menuToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').style.display = 'block';
+    });
+    
+    document.getElementById('overlay').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('active');
+        this.style.display = 'none';
+    });
+    
+    // Switch sections
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.menu-link').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            const targetSection = this.getAttribute('data-section');
+            document.getElementById(`${targetSection}-section`).classList.add('active');
+            
+            // Close sidebar on mobile after selection
+            if (window.innerWidth < 992) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('overlay').style.display = 'none';
+            }
+        });
+    });
+    
+    // Show create job modal
+    document.getElementById('createJobBtn').addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('createJobModal'));
+        modal.show();
+    });
+    
+    // Chart for application status
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('applicationStatusChart').getContext('2d');
+        const applicationChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['En revisión', 'Entrevista', 'Seleccionados', 'Descartados'],
+                datasets: [{
+                    data: [15, 8, 5, 12],
+                    backgroundColor: [
+                        '#4361ee',
+                        '#0dcaf0',
+                        '#198754',
+                        '#dc3545'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+    });
+    
+    // Simulate form submission
+    document.getElementById('submitJobBtn').addEventListener('click', function() {
+        // In a real app, you would submit the form data to a server
+        // Here we'll just close the modal and show a success message
+        const modal = bootstrap.Modal.getInstance(document.getElementById('createJobModal'));
+        modal.hide();
+        
+        // Show success alert
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3';
+        alertDiv.style.zIndex = '1050';
+        alertDiv.innerHTML = `
+            <strong>¡Vacante creada!</strong> Tu vacante ha sido publicada exitosamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        // Auto dismiss after 3 seconds
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alertDiv);
+            bsAlert.close();
+        }, 3000);
+    });
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+            // In a real app, you would redirect to logout endpoint
+            alert('Sesión cerrada exitosamente. Redirigiendo...');
+            window.location.href = '/login';
+        }
+    });
+
+
+
+
+
+    
+document.addEventListener('DOMContentLoaded', () => {
+    const createJobBtn = document.getElementById('createJobBtn');
+    const jobsList = document.getElementById('companyJobsList');
+
+    createJobBtn.addEventListener('click', () => {
+        const nuevaVacante = {
+            titulo: 'Nueva Vacante Demo',
+            estado: 'Activa',
+            ubicacion: 'Remoto',
+            tipo: 'Tiempo completo',
+            salario: '60-80K',
+            publicada: '14/08/2025',
+            candidatos: 0,
+            visitas: 0
+        };
+
+        const li = document.createElement('li');
+        li.classList.add('job-item');
+        li.innerHTML = `
+            <div class="job-header">
+                <h4 class="job-title">${nuevaVacante.titulo}</h4>
+                <span class="job-status status-active">${nuevaVacante.estado}</span>
+            </div>
+            <div class="job-meta">
+                <span class="job-meta-item"><i class="bi bi-geo-alt"></i> ${nuevaVacante.ubicacion}</span>
+                <span class="job-meta-item"><i class="bi bi-clock"></i> ${nuevaVacante.tipo}</span>
+                <span class="job-meta-item"><i class="bi bi-currency-euro"></i> ${nuevaVacante.salario}</span>
+            </div>
+            <p class="mb-0">Publicada: ${nuevaVacante.publicada} · Candidatos: ${nuevaVacante.candidatos} · Visitas: ${nuevaVacante.visitas}</p>
+            <div class="job-actions">
+                <button class="btn btn-sm btn-outline-primary">Editar</button>
+                <button class="btn btn-sm btn-outline-warning">Pausar</button>
+                <button class="btn btn-sm btn-outline-danger">Cerrar</button>
+                <button class="btn btn-sm btn-primary ms-auto">Ver candidatos</button>
+            </div>
+        `;
+
+        jobsList.prepend(li);
+    });
+});
+</script>
+</body>
+</html>

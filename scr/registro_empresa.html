@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Empresa - BolsaTrabajo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --danger-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fb 0%, #eef2ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .registration-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .dashboard-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .registration-header {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .registration-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .registration-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .registration-body {
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1rem;
+            border: 1px solid #dee2e6;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            margin-top: 0.2em;
+        }
+        
+        .form-check-label {
+            margin-left: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .links-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .form-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .form-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group.required .form-label::after {
+            content: "*";
+            color: var(--danger-color);
+            margin-left: 4px;
+        }
+        
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .input-group > div {
+            flex: 1;
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(-100px);
+            transition: all 0.5s ease;
+        }
+        
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .registration-container {
+                margin: 20px;
+            }
+            
+            .address-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dashboard-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dashboard-main {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .dashboard-sidebar {
+            width: 260px;
+            background-color: white;
+            padding: 1.5rem 0;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .dashboard-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #f8fafc;
+            overflow-y: auto;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Página de Registro -->
+    <div class="registration-container" id="registrationPage">
+        <div class="registration-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <h1 class="logo-text">BolsaTrabajo</h1>
+            </div>
+            <h2 class="registration-title">Registro de Empresa</h2>
+            <p class="registration-subtitle">Completa la información para crear tu cuenta empresarial</p>
+        </div>
+        
+        <div class="registration-body">
+            <form id="companyRegistrationForm">
+                <h3 class="section-title">Información de la Empresa</h3>
+                
+                <div class="form-group required">
+                    <label for="companyName" class="form-label">Nombre de la Empresa</label>
+                    <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Ingresa el nombre legal de tu empresa">
+                    <div class="error-message" id="companyNameError">Este campo es obligatorio</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="institution" class="form-label">Institución (si aplica)</label>
+                    <input type="text" class="form-control" id="institution" name="institution" placeholder="Organización o grupo empresarial">
+                </div>
+                
+                <div class="form-group required">
+                    <label for="description" class="form-label">Descripción de la Empresa</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe los productos, servicios y valores de tu empresa"></textarea>
+                    <div class="error-message" id="descriptionError">Por favor, describe tu empresa</div>
+                </div>
+                
+                <div class="form-group required">
+                    <label for="website" class="form-label">Sitio Web</label>
+                    <input type="url" class="form-control" id="website" name="website" placeholder="https://tudominio.com">
+                    <div class="error-message" id="websiteError">Ingresa una URL válida (ej: https://ejemplo.com)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="logoUrl" class="form-label">URL del Logo</label>
+                    <input type="url" class="form-control" id="logoUrl" name="logoUrl" placeholder="https://ejemplo.com/logo.png">
+                    <div class="error-message" id="logoUrlError">Ingresa una URL válida para tu logo</div>
+                </div>
+                
+                <div class="form-group required">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="correo@empresa.com">
+                    <div class="error-message" id="emailError">Ingresa un correo electrónico válido</div>
+                </div>
+
+                <div class="input-group">
+                    <div class="form-group required password-container">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••">
+                        <span class="password-toggle" id="togglePassword">
+                            <i class="bi bi-eye"></i>
+                        </span>
+                        <div class="error-message" id="passwordError">La contraseña debe tener al menos 8 caracteres</div>
+                    </div>
+                    
+                    <div class="form-group required password-container">
+                        <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="••••••••">
+                        <span class="password-toggle" id="toggleConfirmPassword">
+                            <i class="bi bi-eye"></i>
+                        </span>
+                        <div class="error-message" id="confirmPasswordError">Las contraseñas no coinciden</div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Dirección de la Empresa</h3>
+                
+                <div class="address-grid">
+                    <div class="form-group required">
+                        <label for="state" class="form-label">Estado</label>
+                        <select class="form-control" id="state" name="state">
+                            <option value="">Selecciona un estado</option>
+                            <option value="Querétaro">Querétaro</option>
+                            <option value="Ciudad de México">Ciudad de México</option>
+                            <option value="Jalisco">Jalisco</option>
+                            <option value="Nuevo León">Nuevo León</option>
+                            <option value="Puebla">Puebla</option>
+                        </select>
+                        <div class="error-message" id="stateError">Selecciona un estado</div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="municipality" class="form-label">Municipio</label>
+                        <input type="text" class="form-control" id="municipality" name="municipality" placeholder="Municipio o delegación">
+                        <div class="error-message" id="municipalityError">Este campo es obligatorio</div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="neighborhood" class="form-label">Colonia</label>
+                        <input type="text" class="form-control" id="neighborhood" name="neighborhood" placeholder="Colonia o barrio">
+                        <div class="error-message" id="neighborhoodError">Este campo es obligatorio</div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="postalCode" class="form-label">Código Postal</label>
+                        <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="00000" maxlength="5">
+                        <div class="error-message" id="postalCodeError">Ingresa un código postal válido (5 dígitos)</div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="street" class="form-label">Calle</label>
+                        <input type="text" class="form-control" id="street" name="street" placeholder="Nombre de la calle">
+                        <div class="error-message" id="streetError">Este campo es obligatorio</div>
+                    </div>
+                    
+                    <div class="form-group required">
+                        <label for="exteriorNumber" class="form-label">Número Exterior</label>
+                        <input type="text" class="form-control" id="exteriorNumber" name="exteriorNumber" placeholder="Número">
+                        <div class="error-message" id="exteriorNumberError">Este campo es obligatorio</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="terms" name="terms">
+                        <label class="form-check-label" for="terms">
+                            Acepto los términos y condiciones
+                        </label>
+                    </div>
+                    <div class="error-message" id="termsError">Debes aceptar los términos y condiciones</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-building me-2"></i>Registrar Empresa
+                </button>
+                
+                <div class="links-container">
+                    <a href="#" class="form-link">
+                        <i class="bi bi-person-check me-1"></i>¿Ya tienes una cuenta? Inicia sesión aquí
+                    </a>
+                    <a href="#" class="form-link">
+                        <i class="bi bi-person me-1"></i>¿Eres candidato? Regístrate como candidato
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Dashboard Empresarial -->
+    <div class="dashboard-container" id="dashboardPage">
+        <div class="dashboard-header">
+            <div class="dashboard-logo">
+                <div class="logo-icon">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <h1 class="logo-text">BolsaTrabajo</h1>
+            </div>
+            
+            <div class="user-actions">
+                <div class="user-profile">
+                    <div class="user-avatar">JL</div>
+                    <span class="user-name">Juan López</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-main">
+            <div class="dashboard-sidebar">
+                <ul class="sidebar-menu">
+                    <li class="menu-item">
+                        <a href="#" class="menu-link active">
+                            <i class="bi bi-house-door"></i>
+                            <span>Inicio</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="bi bi-building"></i>
+                            <span>Mi Empresa</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="bi bi-search"></i>
+                            <span>Empleos</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="bi bi-person"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link" id="logoutBtn">
+                            <i class="bi bi-box-arrow-left"></i>
+                            <span>Cerrar sesión</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="welcome-section">
+                    <h2>¡Bienvenido, Ade!</h2>
+                    <p>Estamos encantados de tenerte en nuestra plataforma empresarial</p>
+                </div>
+                
+                <h3 class="section-title">Resumen Empresarial</h3>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="bi bi-briefcase" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <h4 class="stat-value">3</h4>
+                        <p>Vacantes Activas</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="bi bi-people" style="font-size: 2rem; color: var(--success-color);"></i>
+                        <h4 class="stat-value">24</h4>
+                        <p>Candidatos</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="bi bi-eye" style="font-size: 2rem; color: var(--warning-color);"></i>
+                        <h4 class="stat-value">128</h4>
+                        <p>Visitas</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="bi bi-bar-chart" style="font-size: 2rem; color: var(--accent-color);"></i>
+                        <h4 class="stat-value">78%</h4>
+                        <p>Posiciones cubiertas</p>
+                    </div>
+                </div>
+                
+                <div class="tab-container">
+                    <h3 class="mb-4">Tus Últimas Vacantes</h3>
+                    
+                    <div class="job-list">
+                        <div class="job-list-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="mb-1">Desarrollador Backend Senior</h5>
+                                    <p class="mb-1 text-muted">Querétaro · Remoto</p>
+                                </div>
+                                <span class="status-active job-status">Activa</span>
+                            </div>
+                            <p class="mb-2">Buscamos desarrollador con experiencia en Node.js y bases de datos para nuestro equipo...</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-light text-dark">Tecnología</span>
+                                    <span class="badge bg-light text-dark">Tiempo completo</span>
+                                    <span class="badge bg-light text-dark">€45,000 - €60,000</span>
+                                </div>
+                                <div class="job-actions">
+                                    <button class="action-btn btn-edit">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="job-list-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="mb-1">Diseñador UX/UI</h5>
+                                    <p class="mb-1 text-muted">Querétaro · Híbrido</p>
+                                </div>
+                                <span class="status-active job-status">Activa</span>
+                            </div>
+                            <p class="mb-2">Diseñador con experiencia en Figma y diseño de interfaces para proyectos SaaS...</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-light text-dark">Diseño</span>
+                                    <span class="badge bg-light text-dark">Medio tiempo</span>
+                                    <span class="badge bg-light text-dark">€35,000 - €45,000</span>
+                                </div>
+                                <div class="job-actions">
+                                    <button class="action-btn btn-edit">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mensaje de éxito -->
+    <div class="success-message" id="successMessage">
+        <i class="bi bi-check-circle-fill" style="color: #28a745; font-size: 1.5rem;"></i>
+        <div>
+            <h5>¡Registro exitoso!</h5>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('companyRegistrationForm');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Limpiar errores previos
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                });
+                document.querySelectorAll('.form-control').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+
+                // Recopilar datos del formulario
+                const formData = {
+                    companyName: document.getElementById('companyName').value.trim(),
+                    institution: document.getElementById('institution').value.trim() || null,
+                    description: document.getElementById('description').value.trim(),
+                    website: document.getElementById('website').value.trim() || null,
+                    logoUrl: document.getElementById('logoUrl').value.trim() || null,
+                    email: document.getElementById('email').value.trim(),
+                    password: document.getElementById('password').value,
+                    confirmPassword: document.getElementById('confirmPassword').value,
+                    state: document.getElementById('state').value,
+                    municipality: document.getElementById('municipality').value.trim(),
+                    neighborhood: document.getElementById('neighborhood').value.trim(),
+                    postalCode: document.getElementById('postalCode').value.trim(),
+                    street: document.getElementById('street').value.trim(),
+                    exteriorNumber: document.getElementById('exteriorNumber').value.trim()
+                };
+
+                // Validación básica en cliente
+                let isValid = true;
+                const errors = {};
+
+                if (!formData.companyName) {
+                    errors.companyName = 'El nombre de la empresa es obligatorio';
+                    isValid = false;
+                }
+                if (!formData.description) {
+                    errors.description = 'La descripción es obligatoria';
+                    isValid = false;
+                }
+                if (!formData.email) {
+                    errors.email = 'El correo electrónico es obligatorio';
+                    isValid = false;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                    errors.email = 'Correo electrónico inválido';
+                    isValid = false;
+                }
+                if (!formData.password) {
+                    errors.password = 'La contraseña es obligatoria';
+                    isValid = false;
+                } else if (formData.password.length < 8) {
+                    errors.password = 'La contraseña debe tener al menos 8 caracteres';
+                    isValid = false;
+                }
+                if (formData.password !== formData.confirmPassword) {
+                    errors.confirmPassword = 'Las contraseñas no coinciden';
+                    isValid = false;
+                }
+                if (!formData.state) {
+                    errors.state = 'Selecciona un estado';
+                    isValid = false;
+                }
+                if (!formData.municipality) {
+                    errors.municipality = 'El municipio es obligatorio';
+                    isValid = false;
+                }
+                if (!formData.neighborhood) {
+                    errors.neighborhood = 'La colonia es obligatoria';
+                    isValid = false;
+                }
+                if (!formData.postalCode || !/^\d{5}$/.test(formData.postalCode)) {
+                    errors.postalCode = 'Código postal inválido (5 dígitos)';
+                    isValid = false;
+                }
+                if (!formData.street) {
+                    errors.street = 'La calle es obligatoria';
+                    isValid = false;
+                }
+                if (!formData.exteriorNumber) {
+                    errors.exteriorNumber = 'El número exterior es obligatorio';
+                    isValid = false;
+                }
+                if (!document.getElementById('terms').checked) {
+                    errors.terms = 'Debes aceptar los términos y condiciones';
+                    isValid = false;
+                }
+
+                // Mostrar errores
+                if (!isValid) {
+                    for (const [field, message] of Object.entries(errors)) {
+                        const errorElement = document.getElementById(`${field}Error`);
+                        const inputElement = document.getElementById(field);
+                        
+                        if (errorElement && inputElement) {
+                            errorElement.textContent = message;
+                            errorElement.style.display = 'block';
+                            inputElement.classList.add('is-invalid');
+                        }
+                    }
+                    return;
+                }
+
+                try {
+                    // Enviar datos al servidor
+                    const response = await fetch('/registrar_empresa', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Mostrar mensaje de éxito
+                        document.getElementById('successMessage').classList.add('show');
+                        
+                        // Redirigir después de 2 segundos
+                        setTimeout(() => {
+                            window.location.href = data.redirect;
+                        }, 2000);
+                    } else {
+                        // Mostrar errores del backend
+                        if (data.errors) {
+                            for (const [field, message] of Object.entries(data.errors)) {
+                                const errorElement = document.getElementById(`${field}Error`);
+                                const inputElement = document.getElementById(field);
+                                
+                                if (errorElement && inputElement) {
+                                    errorElement.textContent = message;
+                                    errorElement.style.display = 'block';
+                                    inputElement.classList.add('is-invalid');
+                                }
+                            }
+                        } else {
+                            alert(data.message || 'Error en el registro');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al conectar con el servidor');
+                }
+            });
+
+            // Alternar visibilidad de contraseña
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.querySelector('i').className = type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+            });
+            
+            document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+                const confirmInput = document.getElementById('confirmPassword');
+                const type = confirmInput.type === 'password' ? 'text' : 'password';
+                confirmInput.type = type;
+                this.querySelector('i').className = type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+            });
+        });
+    </script>
+</body>
+</html>

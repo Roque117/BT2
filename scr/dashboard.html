@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolsa de Trabajo | Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary: #6c757d;
+            --success: #38b000;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            padding-top: 70px;
+            color: #333;
+        }
+        
+        .main-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin: 0;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background-color: #fff;
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            left: 0;
+            padding: 20px 0;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            transition: var(--transition);
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 25px;
+            color: #555;
+            text-decoration: none;
+            border-left: 4px solid transparent;
+            transition: var(--transition);
+            margin: 5px 0;
+        }
+        
+        .menu-link:hover, .menu-link.active {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .menu-link i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            margin-left: 260px;
+            padding: 25px;
+            transition: var(--transition);
+        }
+        
+        .section-title {
+            font-size: 1.7rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 18px 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a56d4;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .job-card {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+        
+        .job-card:last-child {
+            border-bottom: none;
+        }
+        
+        .job-card:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+        
+        .badge-skill {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .skill-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            margin: 5px;
+            font-size: 0.9rem;
+            gap: 6px;
+        }
+        
+        .skill-badge i {
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .skill-badge i:hover {
+            opacity: 1;
+        }
+        
+        .stats-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .stats-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .stats-label {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+        
+        .resource-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .d-none {
+            display: none;
+        }
+        
+        .content-section {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.15);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateX(110%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification.error {
+            border-left: 4px solid #e5383b;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            
+            .main-content {
+                margin-left: 220px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                z-index: 99;
+                display: block;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="main-header">
+    <div class="logo-container">
+        <div class="logo-icon">
+            <i class="fas fa-briefcase"></i>
+        </div>
+        <h1 class="logo-text">BolsaTrabajo</h1>
+    </div>
+    <div class="user-info">
+        <div class="user-avatar" id="userInitials">JD</div>
+        <span id="userFullName" class="d-none d-md-inline"></span>
+
+        <button class="btn btn-sm btn-outline-secondary d-md-none" id="sidebarToggle" aria-label="Toggle sidebar">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Notification Area -->
+<div class="notification success d-none" id="notification">
+    <i class="fas fa-check-circle text-success"></i>
+    <span id="notificationMessage">Perfil actualizado correctamente</span>
+</div>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="list-unstyled">
+            <li>
+                <a href="#" class="menu-link active" data-section="inicio">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-link" data-section="empleos">
+                    <i class="fas fa-search"></i>
+                    Empleos
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-link" data-section="recursos">
+                    <i class="fas fa-book"></i>
+                    Recursos
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-link" data-section="perfil">
+                    <i class="fas fa-user"></i>
+                    Editar Perfil
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-link text-danger" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar sesión
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content w-100">
+        <!-- Inicio Section -->
+        <section id="inicio-section" class="content-section">
+            <h2 class="section-title">Bienvenido, <span id="welcomeName"></span></h2>
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="stats-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="stats-number" id="profileCompletion"></div>
+                            <div class="stats-label">Editar Perfil </div>
+                            <button class="btn btn-outline-primary mt-3" data-section="perfil">
+                                Perfil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="stats-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="stats-number" id="jobMatches">12</div>
+                            <div class="stats-label">Empleos que coinciden</div>
+                            <button class="btn btn-outline-primary mt-3" data-section="empleos">
+                                Ver empleos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="stats-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stats-number" id="applications">3</div>
+                            <div class="stats-label">Postulaciones activas</div>
+                            <button class="btn btn-outline-primary mt-3" data-section="empleos">
+                                Ver postulaciones
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            <div class="stats-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stats-number" id="profileViews">28</div>
+                            <div class="stats-label">Visitas a tu perfil</div>
+                            <button class="btn btn-outline-primary mt-3" data-section="perfil">
+                                Ver estadísticas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Empleos recomendados</span>
+                            <a href="#" data-section="empleos" class="btn btn-sm btn-link">Ver todos</a>
+                        </div>
+                        <div class="card-body" id="recommendedJobsContainer">
+                            <!-- Recommended jobs will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Recursos recientes</span>
+                            <a href="#" data-section="recursos" class="btn btn-sm btn-link">Ver todos</a>
+                        </div>
+                        <div class="card-body" id="recentResourcesContainer">
+                            <!-- Recent resources will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Empleos Section -->
+        <section id="empleos-section" class="content-section d-none">
+            <h2 class="section-title">Buscar empleos</h2>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="jobsSearchForm" class="row g-3">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" id="jobTitle" placeholder="Título, palabra clave...">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                <input type="text" class="form-control" id="jobLocation" placeholder="Ubicación">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Resultados de empleos</span>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="remoteOnly">
+                        <label class="form-check-label" for="remoteOnly">Solo remotos</label>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div id="jobsResultsContainer">
+                        <!-- Jobs results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Perfil Section -->
+        <section id="perfil-section" class="content-section d-none">
+            <h2 class="section-title">Mi perfil</h2>
+
+            <div class="card mb-4">
+                <div class="card-header">Información personal</div>
+                <div class="card-body">
+                    <form id="profileForm" class="mt-2">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre(s)</label>
+                                <input type="text" class="form-control" id="profileName" name="nombres" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" id="profileLastName" name="apellidos" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="profileEmail" name="correo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" id="profileLocation" name="ubicacion">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Resumen profesional</label>
+                            <textarea class="form-control" id="profileSummary" name="resumen" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Guardar cambios
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">Habilidades</div>
+                        <div class="card-body">
+                            <div class="mb-3" id="skillsContainer">
+                                <!-- Skills will be loaded here -->
+                            </div>
+                            <div class="d-flex mt-3">
+                                <input type="text" class="form-control me-2" id="newSkillInput" placeholder="Nueva habilidad">
+                                <button class="btn btn-primary" id="addCustomSkillBtn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">Cambiar contraseña</div>
+                        <div class="card-body">
+                            <form id="passwordChangeForm" class="mt-2">
+                                <div class="mb-3">
+                                    <label class="form-label">Contraseña actual</label>
+                                    <input type="password" class="form-control" id="currentPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nueva contraseña</label>
+                                    <input type="password" class="form-control" id="newPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirmar nueva contraseña</label>
+                                    <input type="password" class="form-control" id="confirmNewPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-key me-2"></i>Cambiar contraseña
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recursos Section -->
+        <section id="recursos-section" class="content-section d-none">
+            <h2 class="section-title">Recursos profesionales</h2>
+
+            <div class="row mb-4">
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100 resource-card">
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <div class="resource-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h5>Guías de Carrera</h5>
+                            <p class="text-muted">Recursos para planificar tu desarrollo profesional</p>
+                            <button class="btn btn-outline-primary mt-auto">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100 resource-card">
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <div class="resource-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h5>Cursos en Línea</h5>
+                            <p class="text-muted">Mejora tus habilidades con nuestros cursos</p>
+                            <button class="btn btn-outline-primary mt-auto">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100 resource-card">
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <div class="resource-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h5>Plantillas</h5>
+                            <p class="text-muted">Modelos de CV y cartas de presentación</p>
+                            <button class="btn btn-outline-primary mt-auto">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100 resource-card">
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <div class="resource-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h5>Sesiones Grabadas</h5>
+                            <p class="text-muted">Webinars y talleres sobre desarrollo profesional</p>
+                            <button class="btn btn-outline-primary mt-auto">Explorar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Todos los recursos</div>
+                <div class="card-body">
+                    <div class="row" id="resourcesContainer">
+                        <!-- Resources will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos simulados desde la base de datos
+    const userData = {
+        id: 123,
+        nombres: "Roque",
+        apellidos: "Aguirre",
+        correo: "roquejos117@gmail.com",
+        ubicacion: "",
+        resumen: "",
+        habilidades: [""],
+        jobMatches: 12,
+        profileCompletion: "Perfil",
+        applications: 3,
+        profileViews: 28
+    };
+
+    // Mostrar iniciales en el avatar
+    const initialsEl = document.getElementById('userInitials');
+    if (initialsEl) {
+        const initials = userData.nombres.charAt(0) + userData.apellidos.charAt(0);
+        initialsEl.textContent = initials.toUpperCase();
+    }
+
+    // Nombre completo en el header
+    const fullNameEl = document.getElementById('userFullName');
+    if (fullNameEl) fullNameEl.textContent = `${userData.nombres} ${userData.apellidos}`;
+
+    // Nombre de bienvenida
+    const welcomeNameEl = document.getElementById('welcomeName');
+    if (welcomeNameEl) welcomeNameEl.textContent = userData.nombres;
+
+    // Estadísticas
+    const profileCompletionEl = document.getElementById('profileCompletion');
+    if (profileCompletionEl) profileCompletionEl.textContent = `${userData.profileCompletion}%`;
+
+    const jobMatchesEl = document.getElementById('jobMatches');
+    if (jobMatchesEl) jobMatchesEl.textContent = userData.jobMatches;
+
+    const applicationsEl = document.getElementById('applications');
+    if (applicationsEl) applicationsEl.textContent = userData.applications;
+
+    const profileViewsEl = document.getElementById('profileViews');
+    if (profileViewsEl) profileViewsEl.textContent = userData.profileViews;
+
+    // Formulario de perfil
+    const profileNameEl = document.getElementById('profileName');
+    if (profileNameEl) profileNameEl.value = userData.nombres;
+
+    const profileLastNameEl = document.getElementById('profileLastName');
+    if (profileLastNameEl) profileLastNameEl.value = userData.apellidos;
+
+    const profileEmailEl = document.getElementById('profileEmail');
+    if (profileEmailEl) profileEmailEl.value = userData.correo;
+
+    const profileLocationEl = document.getElementById('profileLocation');
+    if (profileLocationEl) profileLocationEl.value = userData.ubicacion;
+
+    const profileSummaryEl = document.getElementById('profileSummary');
+    if (profileSummaryEl) profileSummaryEl.value = userData.resumen;
+
+            
+            const vacancies = [
+                {
+                    id: 1,
+                    titulo: "Desarrollador Frontend Senior",
+                    empresa: "Tech Solutions",
+                    ubicacion: "Remoto",
+                    descripcion: "Buscamos desarrollador con experiencia en React y JavaScript para unirse a nuestro equipo de innovación.",
+                    habilidades: ["JavaScript", "React", "CSS", "TypeScript"],
+                    fecha: "2023-11-15",
+                    salario: "45.000€ - 60.000€",
+                    tipo: "Tiempo completo"
+                },
+                {
+                    id: 2,
+                    titulo: "Diseñador UI/UX",
+                    empresa: "Creative Agency",
+                    ubicacion: "Madrid",
+                    descripcion: "Diseñador con experiencia en interfaces de usuario y experiencia de usuario para proyectos internacionales.",
+                    habilidades: ["Figma", "UI Design", "UX Research", "Prototyping"],
+                    fecha: "2023-11-10",
+                    salario: "35.000€ - 50.000€",
+                    tipo: "Tiempo completo"
+                },
+                {
+                    id: 3,
+                    titulo: "Desarrollador Backend Python",
+                    empresa: "Data Insights",
+                    ubicacion: "Barcelona",
+                    descripcion: "Únete a nuestro equipo de desarrollo backend para construir APIs escalables con Python y Django.",
+                    habilidades: ["Python", "Django", "REST API", "PostgreSQL"],
+                    fecha: "2023-11-05",
+                    salario: "40.000€ - 55.000€",
+                    tipo: "Tiempo completo"
+                },
+                {
+                    id: 4,
+                    titulo: "Project Manager IT",
+                    empresa: "Global Solutions",
+                    ubicacion: "Remoto",
+                    descripcion: "Gestiona proyectos tecnológicos para clientes internacionales con equipos multidisciplinarios.",
+                    habilidades: ["Scrum", "Agile", "Gestión de Proyectos", "Jira"],
+                    fecha: "2023-11-01",
+                    salario: "50.000€ - 70.000€",
+                    tipo: "Tiempo completo"
+                }
+            ];
+            
+            const resources = [
+                {
+                    id: 1,
+                    titulo: "Guía de entrevistas técnicas",
+                    categoria: "Carrera",
+                    descripcion: "Preparación completa para entrevistas técnicas en empresas de tecnología.",
+                    nivel: "Intermedio",
+                    duracion: "2 horas"
+                },
+                {
+                    id: 2,
+                    titulo: "Curso de React avanzado",
+                    categoria: "Desarrollo",
+                    descripcion: "Aprende patrones avanzados, optimización y mejores prácticas en React.",
+                    nivel: "Avanzado",
+                    duracion: "8 horas"
+                },
+                {
+                    id: 3,
+                    titulo: "Plantilla de CV profesional",
+                    categoria: "Documentos",
+                    descripcion: "Plantilla moderna y profesional para destacar tu currículum.",
+                    nivel: "Todos",
+                    duracion: "Descarga"
+                },
+                {
+                    id: 4,
+                    titulo: "Taller de negociación salarial",
+                    categoria: "Carrera",
+                    descripcion: "Aprende técnicas efectivas para negociar tu salario y beneficios.",
+                    nivel: "Intermedio",
+                    duracion: "1.5 horas"
+                }
+            ];
+            
+            // Inicializar datos
+            loadUserData(userData);
+            loadVacancies(vacancies);
+            loadResources(resources);
+            loadRecommendedJobs(vacancies.slice(0, 3));
+            loadRecentResources(resources.slice(0, 2));
+            
+            // Sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+            
+            // Section navigation
+            const navLinks = document.querySelectorAll('[data-section]');
+            const sections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Update active nav item
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    sections.forEach(section => {
+                        section.classList.add('d-none');
+                    });
+                    document.getElementById(`${targetSection}-section`).classList.remove('d-none');
+                    
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Guardar perfil
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simular actualización en la base de datos
+                setTimeout(() => {
+                    showNotification('Perfil actualizado correctamente', 'success');
+                }, 800);
+            });
+            
+            // Agregar habilidad
+            const addCustomSkillBtn = document.getElementById('addCustomSkillBtn');
+            const newSkillInput = document.getElementById('newSkillInput');
+            const skillsContainer = document.getElementById('skillsContainer');
+            
+            addCustomSkillBtn.addEventListener('click', function() {
+                const skillText = newSkillInput.value.trim();
+                if (skillText) {
+                    // Simular guardado en la base de datos
+                    const skillId = Date.now();
+                    
+                    const skillElement = document.createElement('span');
+                    skillElement.className = 'skill-badge';
+                    skillElement.innerHTML = `
+                        <i class="fas fa-tag"></i> ${skillText}
+                        <i class="fas fa-times" onclick="removeSkill(${skillId})"></i>
+                    `;
+                    skillElement.dataset.id = skillId;
+                    skillsContainer.appendChild(skillElement);
+                    
+                    newSkillInput.value = '';
+                    showNotification('Habilidad agregada correctamente', 'success');
+                }
+            });
+            
+            // Cambiar contraseña
+            document.getElementById('passwordChangeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+                
+                if (newPassword !== confirmNewPassword) {
+                    showNotification('Las contraseñas no coinciden', 'error');
+                    return;
+                }
+                
+                // Simular actualización en la base de datos
+                setTimeout(() => {
+                    showNotification('Contraseña cambiada correctamente', 'success');
+                    this.reset();
+                }, 800);
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                    // Simular cierre de sesión
+                    setTimeout(() => {
+                        alert('Sesión cerrada');
+                        // Redirigir a la página de login en implementación real
+                    }, 500);
+                }
+            });
+            
+            // Buscar empleos
+            document.getElementById('jobsSearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const jobTitle = document.getElementById('jobTitle').value;
+                const jobLocation = document.getElementById('jobLocation').value;
+                
+                // Simular búsqueda en base de datos
+                setTimeout(() => {
+                    const filteredVacancies = vacancies.filter(vacancy => {
+                        const titleMatch = vacancy.titulo.toLowerCase().includes(jobTitle.toLowerCase());
+                        const locationMatch = vacancy.ubicacion.toLowerCase().includes(jobLocation.toLowerCase());
+                        return titleMatch && locationMatch;
+                    });
+                    
+                    loadVacancies(filteredVacancies);
+                    showNotification(`Se encontraron ${filteredVacancies.length} empleos`, 'success');
+                }, 800);
+            });
+            
+            // Filtrar solo remotos
+            document.getElementById('remoteOnly').addEventListener('change', function() {
+                const remoteOnly = this.checked;
+                
+                // Simular filtrado en base de datos
+                setTimeout(() => {
+                    const filteredVacancies = remoteOnly ? 
+                        vacancies.filter(vacancy => vacancy.ubicacion.toLowerCase().includes('remoto')) : 
+                        vacancies;
+                    
+                    loadVacancies(filteredVacancies);
+                }, 500);
+            });
+            
+            // Funciones de utilidad
+            function showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                const notificationMessage = document.getElementById('notificationMessage');
+                
+                notificationMessage.textContent = message;
+                notification.className = `notification ${type} show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function removeSkill(skillId) {
+                const skillElement = document.querySelector(`.skill-badge[data-id="${skillId}"]`);
+                if (skillElement) {
+                    skillElement.remove();
+                    showNotification('Habilidad eliminada', 'success');
+                }
+            }
+            
+            // Funciones de carga de datos
+            function loadUserData(userData) {
+                // Cargar datos del usuario
+                document.getElementById('profileName').value = userData.nombres;
+                document.getElementById('profileLastName').value = userData.apellidos;
+                document.getElementById('profileEmail').value = userData.correo;
+                document.getElementById('profileLocation').value = userData.ubicacion || '';
+                document.getElementById('profileSummary').value = userData.resumen || '';
+                document.getElementById('welcomeName').textContent = userData.nombres;
+                
+                const userNameParts = userData.nombres.split(' ');
+                const userLastNameParts = userData.apellidos.split(' ');
+                const initials = (userNameParts[0].charAt(0) + (userLastNameParts[0] ? userLastNameParts[0].charAt(0) : '')).toUpperCase();
+                document.getElementById('userInitials').textContent = initials;
+                
+                document.getElementById('userFullName').textContent = `${userData.nombres} ${userData.apellidos}`;
+                document.getElementById('jobMatches').textContent = userData.jobMatches;
+                document.getElementById('profileCompletion').textContent = `${userData.profileCompletion}`;
+                document.getElementById('applications').textContent = userData.applications;
+                document.getElementById('profileViews').textContent = userData.profileViews;
+                
+                // Cargar habilidades
+                const skillsContainer = document.getElementById('skillsContainer');
+                skillsContainer.innerHTML = '';
+                
+                userData.habilidades.forEach(skill => {
+                    const skillId = Date.now();
+                    const skillElement = document.createElement('span');
+                    skillElement.className = 'skill-badge';
+                    skillElement.innerHTML = `
+                        <i class="fas fa-tag"></i> ${skill}
+                        <i class="fas fa-times" onclick="removeSkill(${skillId})"></i>
+                    `;
+                    skillElement.dataset.id = skillId;
+                    skillsContainer.appendChild(skillElement);
+                });
+            }
+            
+            function loadVacancies(vacancies) {
+                const container = document.getElementById('jobsResultsContainer');
+                container.innerHTML = '';
+                
+                if (vacancies.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                            <h4>No se encontraron empleos</h4>
+                            <p class="text-muted">Intenta con otros criterios de búsqueda</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                vacancies.forEach(job => {
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'job-card';
+                    jobCard.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h4 class="mb-1">${job.titulo}</h4>
+                                <div class="d-flex flex-wrap align-items-center mb-2">
+                                    <span class="text-primary fw-bold me-3">${job.empresa}</span>
+                                    <span class="text-muted me-3"><i class="fas fa-map-marker-alt me-1"></i>${job.ubicacion}</span>
+                                    <span class="text-muted"><i class="fas fa-money-bill-wave me-1"></i>${job.salario}</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-light text-dark">${job.tipo}</span>
+                        </div>
+                        
+                        <p class="mb-3">${job.descripcion}</p>
+                        
+                        <div class="mb-3">
+                            ${job.habilidades.map(skill => `
+                                <span class="badge-skill">
+                                    <i class="fas fa-check-circle"></i>${skill}
+                                </span>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted"><i class="fas fa-clock me-1"></i>Publicado: ${job.fecha}</small>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-arrow-right me-1"></i>Postularse
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(jobCard);
+                });
+            }
+            
+            function loadResources(resources) {
+                const container = document.getElementById('resourcesContainer');
+                container.innerHTML = '';
+                
+                resources.forEach(resource => {
+                    const resourceCard = document.createElement('div');
+                    resourceCard.className = 'col-md-6 mb-4';
+                    resourceCard.innerHTML = `
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-light rounded p-3">
+                                            <i class="fas fa-book fa-2x text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-1">${resource.titulo}</h5>
+                                        <div class="d-flex flex-wrap mb-2">
+                                            <span class="badge bg-light text-dark me-2">${resource.categoria}</span>
+                                            <span class="badge bg-light text-dark">${resource.nivel}</span>
+                                        </div>
+                                        <p class="text-muted mb-3">${resource.descripcion}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted"><i class="fas fa-clock me-1"></i>${resource.duracion}</small>
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-download me-1"></i>Acceder
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(resourceCard);
+                });
+            }
+            
+            function loadRecommendedJobs(jobs) {
+                const container = document.getElementById('recommendedJobsContainer');
+                container.innerHTML = '';
+                
+                jobs.forEach(job => {
+                    const jobElement = document.createElement('div');
+                    jobElement.className = 'mb-3 pb-3 border-bottom';
+                    jobElement.innerHTML = `
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">${job.titulo}</h5>
+                                <div class="d-flex flex-wrap text-muted small mb-2">
+                                    <span class="me-3"><i class="fas fa-building me-1"></i>${job.empresa}</span>
+                                    <span><i class="fas fa-map-marker-alt me-1"></i>${job.ubicacion}</span>
+                                </div>
+                                <div class="d-flex flex-wrap">
+                                    ${job.habilidades.slice(0, 3).map(skill => `
+                                        <span class="badge-skill small">${skill}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(jobElement);
+                });
+            }
+            
+            function loadRecentResources(resources) {
+                const container = document.getElementById('recentResourcesContainer');
+                container.innerHTML = '';
+                
+                resources.forEach(resource => {
+                    const resourceElement = document.createElement('div');
+                    resourceElement.className = 'mb-3 pb-3 border-bottom';
+                    resourceElement.innerHTML = `
+                        <div class="d-flex align-items-start">
+                            <div class="bg-light rounded p-2 me-3">
+                                <i class="fas fa-book text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">${resource.titulo}</h6>
+                                <p class="text-muted small mb-2">${resource.descripcion}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-light text-dark small">${resource.categoria}</span>
+                                    <a href="#" class="text-primary small">Acceder <i class="fas fa-chevron-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(resourceElement);
+                });
+            }
+        });
+        
+        // Make function available globally for onclick
+        window.removeSkill = function(skillId) {
+            const skillElement = document.querySelector(`.skill-badge[data-id="${skillId}"]`);
+            if (skillElement) {
+                skillElement.remove();
+                
+                // Show notification
+                const notification = document.getElementById('notification');
+                const notificationMessage = document.getElementById('notificationMessage');
+                
+                notificationMessage.textContent = 'Habilidad eliminada';
+                notification.className = 'notification success show';
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        };
+    </script>
+</body>
+</html>

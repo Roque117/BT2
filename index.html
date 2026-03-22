@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolsa de Trabajo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #4f46e5;
+            --accent: #8b5cf6;
+            --light: #f8fafc;
+            --dark: #0f172a;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .glassmorphism-navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+        }
+        
+        .glassmorphism-navbar .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .custom-btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .login-btn {
+            background-color: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .register-btn {
+            background-color: var(--primary);
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .register-btn:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .empresa-btn {
+            background-color: var(--accent);
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .empresa-btn:hover {
+            background-color: #7c3aed;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .hero-section {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            opacity: 0.1;
+        }
+        
+        .glassmorphism-text {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-section p {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-search {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .hero-search input {
+            padding: 20px 25px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            font-size: 1.1rem;
+        }
+        
+        .hero-search button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            padding: 10px 30px;
+            border-radius: 50px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-search button:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+        }
+        
+        .features-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 700;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--primary);
+            font-size: 32px;
+        }
+        
+        .feature-card h3 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: #64748b;
+        }
+        
+        .how-it-works {
+            padding: 100px 0;
+            background: #f1f5f9;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 100%;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .testimonials-section {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin: 20px;
+            border-top: 4px solid var(--accent);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .author-info h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            opacity: 0.1;
+        }
+        
+        .cta-section h2 {
+            font-weight: 800;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .cta-btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .cta-btn-primary:hover {
+            background: #f1f5f9;
+            transform: translateY(-5px);
+            color: var(--primary);
+        }
+        
+        .cta-btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .cta-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            color: white;
+        }
+        
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer h5 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer h5::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        @media (max-width: 992px) {
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 150px 0 80px;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top glassmorphism-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#hero-section">
+                <i class="bi bi-briefcase-fill me-2"></i>
+                <span>BolsaDeTrabajo</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a class="custom-btn empresa-btn ms-lg-2" href="scr/login_empresa.html">Inicio Empresas</a>
+                    <a class="custom-btn empresa-btn" href="scr/registro_empresa.html">Registrar Empresa</a>
+                    <a class="custom-btn login-btn" href="scr/login.html">Iniciar sesión</a>
+                    <a class="custom-btn register-btn" href="scr/registro.html">Registrarse</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center text-white" id="hero-section">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3 glassmorphism-text"> Bolsa de Trabajo </h1>
+            <div class="hero-search">
+                <div class="input-group">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Cómo funciona</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Crea tu perfil</h3>
+                        <p>Regístrate y completa tu perfil con tu experiencia, habilidades y preferencias laborales.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Busca empleos</h3>
+                        <p>Explora miles de oportunidades laborales que se ajusten a tu perfil y preferencias.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Postula y consigue</h3>
+                        <p>Postula a los empleos que te interesen y sigue el proceso de selección.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5>Para Candidatos</h5>
+                    <ul>
+                        <li><a href="scr/registro.html">Registrarse</a></li>
+                        <li><a href="scr/login.html">Iniciar Sesión</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5>Para Empresas</h5>
+                    <ul>
+                        <li><a href="scr/registro_empresa.html">Registrar Empresa</a></li>
+                        <li><a href="scr/login_empresa.html">Iniciar Sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>BolsaDeTrabajo</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+                navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
