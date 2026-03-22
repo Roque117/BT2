@@ -41,11 +41,6 @@
 
 ---
 
-##  Vistas
-
-
-
----
 ##  Estructura del Ecosistema
 
 El repositorio mantiene una organización modular estricta para garantizar la escalabilidad:
@@ -63,3 +58,5 @@ BT2/
     ├── registro.html   # Captura de nuevos perfiles
     ├── dashboard.html  # Panel de usuario/admin
     └── [otros].html    # Documentación legal y soporte
+
+<img width="1919" height="863" alt="image" src="https://github.com/user-attachments/assets/367dcd82-17b7-49a7-9d86-335150702642" />
